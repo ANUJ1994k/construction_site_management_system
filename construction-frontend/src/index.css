@@ -1,0 +1,12 @@
+/* index.css or tailwind.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    background: rgb(240, 231, 249);
+    margin: auto;
+    padding: auto;
+    color: black;
+    text-decoration: none;
+}
