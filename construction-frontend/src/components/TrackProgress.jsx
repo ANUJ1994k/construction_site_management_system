@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import API from "../services/api";
 
 const TrackProgress = () => {
   const { siteId, taskId } = useParams();
@@ -8,7 +9,7 @@ const TrackProgress = () => {
   const [materialUsed, setMaterialUsed] = useState("");
   const [workers, setWorkers] = useState([]);
   const [assignedWorkers, setAssignedWorkers] = useState([]);
-
+  
   // Fetch assigned workers for the task
   useEffect(() => {
     fetchAssignedWorkers();
@@ -16,7 +17,7 @@ const TrackProgress = () => {
 
   const fetchAssignedWorkers = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/tasks/${taskId}/workers`);
+      const res = await API.get(`/tasks/${taskId}/workers`);
       setAssignedWorkers(res.data);
     } catch (err) {
       console.error("Failed to fetch workers", err);
@@ -26,7 +27,7 @@ const TrackProgress = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/progress", {
+      await API.post("/progress", {
         taskId,
         laborCount: Number(laborCount),
         materialUsed,

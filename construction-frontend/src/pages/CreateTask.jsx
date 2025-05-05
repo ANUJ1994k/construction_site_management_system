@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import API from "../services/api";
 
 const CreateTask = () => {
   const { siteId } = useParams();
@@ -14,14 +15,14 @@ const CreateTask = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/tasks", {
+      await API.post("/tasks", {
         siteId,
         name: taskName,
         description,
         startDate,
         endDate,
       });
-      // ✅ Correct usage of navigate in React Router v6
+      
       navigate(`/site/${siteId}/tasks`);
     } catch (error) {
       console.error("Error creating task:", error);

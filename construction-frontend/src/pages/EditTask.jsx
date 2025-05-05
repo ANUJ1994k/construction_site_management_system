@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import API from "../services/api";
 
 const EditTask = () => {
   const { siteId, taskId } = useParams();
-  const navigate = useNavigate(); // ✅ Replaces useHistory()
+  const navigate = useNavigate(); 
 
   const [taskName, setTaskName] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
@@ -18,7 +19,7 @@ const EditTask = () => {
 
   const fetchTaskDetails = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/tasks/${taskId}`);
+      const res = await API.get(`/tasks/${taskId}`);
       const task = res.data;
       setTaskName(task.name);
       setTaskDescription(task.description);
@@ -38,7 +39,7 @@ const EditTask = () => {
     }
 
     try {
-      await axios.put(`http://localhost:5000/api/tasks/${taskId}`, {
+      await API.put(`/tasks/${taskId}`, {
         name: taskName,
         description: taskDescription,
         startDate,

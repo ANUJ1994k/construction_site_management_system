@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import API from "../services/api";
 
 const ViewTasks = () => {
   const [tasks, setTasks] = useState([]);
@@ -12,7 +13,7 @@ const ViewTasks = () => {
 
   const fetchTasks = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/tasks");
+      const res = await API.get("/tasks");
       setTasks(res.data);
     } catch (err) {
       console.error("Failed to fetch tasks", err);
@@ -22,7 +23,7 @@ const ViewTasks = () => {
   const handleDelete = async (taskId) => {
     if (window.confirm("Are you sure you want to delete this task?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/tasks/${taskId}`);
+        await API.delete(`/tasks/${taskId}`);
         fetchTasks();
       } catch (err) {
         console.error("Failed to delete task", err);

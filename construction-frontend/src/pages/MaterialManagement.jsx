@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import API from "../services/api";
 
 const MaterialManagement = () => {
   const { siteId } = useParams();
@@ -17,7 +18,7 @@ const MaterialManagement = () => {
 
   const fetchSiteDetails = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/sites/${siteId}`);
+      const res = await API.get(`/sites/${siteId}`);
       setSite(res.data);
     } catch (error) {
       console.error("Error fetching site details", error);
@@ -26,7 +27,7 @@ const MaterialManagement = () => {
 
   const fetchMaterials = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/materials/site/${siteId}`);
+      const res = await API.get(`/materials/site/${siteId}`);
       setMaterials(res.data);
     } catch (error) {
       console.error("Error fetching materials", error);
@@ -36,7 +37,7 @@ const MaterialManagement = () => {
   const addMaterial = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/materials", {
+      await API.post("/materials", {
         siteId,
         name,
         quantity,

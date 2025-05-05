@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
+import API from "../services/api";
 
 const ReportsScreen = () => {
   const [progressReports, setProgressReports] = useState([]);
@@ -16,12 +17,12 @@ const ReportsScreen = () => {
 
   const fetchReports = async () => {
     try {
-      const progressRes = await axios.get("http://localhost:5000/api/progress", {
+      const progressRes = await API.get("/progress", {
         params: { taskId: taskFilter, startDate, endDate }
       });
       setProgressReports(progressRes.data);
 
-      const materialRes = await axios.get("http://localhost:5000/api/material", {
+      const materialRes = await API.get("/material", {
         params: { startDate, endDate }
       });
       setMaterialReports(materialRes.data);
@@ -87,7 +88,7 @@ const ReportsScreen = () => {
                 <button
                   className="mt-2 text-sm text-green-600 hover:underline"
                   onClick={async () => {
-                    await axios.put(`http://localhost:5000/api/progress/${entry._id}/approve`);
+                    await API.put(`/progress/${entry._id}/approve`);
                     fetchReports();
                   }}
                 >

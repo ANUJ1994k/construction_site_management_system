@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import API from "../services/api";
 
 const TaskManagement = () => {
   const { siteId } = useParams();
@@ -16,7 +17,7 @@ const TaskManagement = () => {
 
   const fetchSiteDetails = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/sites/${siteId}`);
+      const res = await API.get(`/sites/${siteId}`);
       setSite(res.data);
     } catch (error) {
       console.error("Error fetching site details", error);
@@ -25,7 +26,7 @@ const TaskManagement = () => {
 
   const fetchTasks = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/tasks/site/${siteId}`);
+      const res = await API.get(`/tasks/site/${siteId}`);
       setTasks(res.data);
     } catch (error) {
       console.error("Error fetching tasks", error);
@@ -35,7 +36,7 @@ const TaskManagement = () => {
   const addTask = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/tasks", {
+      await API.post("/tasks", {
         siteId,
         name,
         description,

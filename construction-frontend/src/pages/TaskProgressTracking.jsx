@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import API from "../services/api";
 
 const TaskProgressTracking = () => {
   const { siteId } = useParams();
@@ -18,7 +19,7 @@ const TaskProgressTracking = () => {
 
   const fetchTasks = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/tasks/site/${siteId}`);
+      const res = await API.get(`/tasks/site/${siteId}`);
       setTasks(res.data);
     } catch (err) {
       console.error("Failed to load tasks", err);
@@ -27,7 +28,7 @@ const TaskProgressTracking = () => {
 
   const fetchProgress = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/progress/site/${siteId}`);
+      const res = await API.get(`/progress/site/${siteId}`);
       setProgressList(res.data);
     } catch (err) {
       console.error("Failed to load progress reports", err);
@@ -37,7 +38,7 @@ const TaskProgressTracking = () => {
   const submitProgress = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/progress", {
+      await API.post("/progress", {
         taskId: selectedTaskId,
         laborCount: Number(laborCount),
         materialsUsed,

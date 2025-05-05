@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import API from "../services/api";
 
 const SitesDashboard = () => {
   const [sites, setSites] = useState([]);
@@ -12,7 +13,7 @@ const SitesDashboard = () => {
 
   const fetchSites = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/sites");
+      const res = await API.get("/sites");
       setSites(res.data);
     } catch (error) {
       console.error("Error fetching sites", error);
@@ -22,7 +23,7 @@ const SitesDashboard = () => {
   const addSite = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/sites", { name, location });
+      await API.post("/sites", { name, location });
       setName("");
       setLocation("");
       fetchSites();

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import API from "../services/api";
 
 const AssignWorkers = () => {
   const { siteId, taskId } = useParams();
@@ -14,7 +15,7 @@ const AssignWorkers = () => {
 
   const fetchWorkers = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/workers`);
+      const res = await API.get(`/workers`);
       setWorkers(res.data);
     } catch (err) {
       console.error("Failed to fetch workers", err);
@@ -23,7 +24,7 @@ const AssignWorkers = () => {
 
   const assignWorkers = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/tasks/${taskId}/assign`, {
+      await API.put(`/tasks/${taskId}/assign`, {
         workers: assignedWorkers,
       });
       alert("Workers assigned successfully!");

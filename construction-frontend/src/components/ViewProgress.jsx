@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import API from "../services/api";
 
 const ViewProgress = () => {
   const { siteId, taskId } = useParams();
@@ -12,7 +13,7 @@ const ViewProgress = () => {
 
   const fetchProgress = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/progress/task/${taskId}`);
+      const res = await API.get(`/progress/task/${taskId}`);
       setProgress(res.data);
     } catch (err) {
       console.error("Failed to fetch progress", err);
